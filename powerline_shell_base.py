@@ -142,6 +142,8 @@ if __name__ == "__main__":
             help='Error code returned by the last command')
     arg_parser.add_argument('--git-simple', action='store_true',
             help='Simplify git status segment')
+    arg_parser.add_argument('--jobs-simple', action='store_true',
+            help='Show gear icon instead of number of jobs')
     arg_parser.add_argument('--default-user', action='store', 
             help='Default username')
     arg_parser.add_argument('--default-host', action='store', 

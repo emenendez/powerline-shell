@@ -14,4 +14,8 @@ def add_jobs_segment(powerline):
     num_jobs = len(re.findall(str(pppid), output)) - 1
 
     if num_jobs > 0:
-        powerline.append(' %d ' % num_jobs, Color.JOBS_FG, Color.JOBS_BG)
+        if powerline.args.jobs_simple:
+            jobs_segment = u' \u2699 '
+        else:
+            jobs_segment = ' %d ' % num_jobs
+        powerline.append(jobs_segment, Color.JOBS_FG, Color.JOBS_BG)
