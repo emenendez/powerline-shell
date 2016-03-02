@@ -9,7 +9,8 @@ GIT_SYMBOLS = {
     'staged': u'\u2714',
     'notstaged': u'\u270E',
     'untracked': u'\u2753',
-    'conflicted': u'\u273C'
+    'conflicted': u'\u273C',
+    'branch': u'\uE0A0'
 }
 
 def get_PATH():
@@ -100,7 +101,7 @@ def add_git_segment(powerline):
         bg = Color.REPO_DIRTY_BG
         fg = Color.REPO_DIRTY_FG
 
-    powerline.append(' %s ' % branch, fg, bg)
+    powerline.append(' %s %s ' % (GIT_SYMBOLS['branch'], branch), fg, bg)
 
     def _add(_dict, _key, fg, bg):
         if _dict[_key]:
