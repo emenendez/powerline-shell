@@ -47,9 +47,9 @@ setting your $TERM to `xterm-256color`, because that works for me.
 
 * Clone this repository somewhere:
 
-        git clone https://github.com/milkbikis/powerline-shell
+        git clone https://github.com/emenendez/powerline-shell
 
-* Copy `config.py.dist` to `config.py` and edit it to configure the segments you want. Then run
+* Copy `config.py.dist` or `config.py.example` to `config.py` and edit it to configure the segments you want. Then run
 
         ./install.py
 
@@ -80,6 +80,12 @@ There are a few optional arguments which can be seen by running `powerline-shell
   --mode {patched,compatible,flat}
                         The characters used to make separators between
                         segments
+  --git-simple          Simplify git status segment
+  --jobs-simple         Show gear icon instead of number of jobs
+  --default-user DEFAULT_USER
+                        Default username
+  --default-host DEFAULT_HOST
+                        Default hostname
 ```
 
 ### Bash:
@@ -87,13 +93,15 @@ Add the following to your `.bashrc` (or `.profile` on Mac):
 
 ```
 function _update_ps1() {
-    PS1="$(~/powerline-shell.py $? 2> /dev/null)"
+    PS1="$(~/powerline-shell.py --cwd-mode plain --git-simple --jobs-simple $? 2> /dev/null)"
 }
 
 if [ "$TERM" != "linux" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 ```
+
+Add the `--default-user` and `--default-host` arguments if you want to hide your user and hostname on your local machine.
 
 ### ZSH:
 Add the following to your `.zshrc`:
