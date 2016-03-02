@@ -13,6 +13,12 @@ GIT_SYMBOLS = {
     'branch': u'\uE0A0'
 }
 
+GIT_SYMBOL_PRIORITY = [
+    'conflicted',
+    'notstaged',
+    'staged'
+]
+
 def get_PATH():
     """Normally gets the PATH from the OS. This function exists to enable
     easily mocking the PATH in tests.
@@ -71,6 +77,14 @@ def _n_or_empty(_dict, _key):
     return _dict[_key] if int(_dict[_key]) > 1 else u''
 
 
+def single_symbol(stats):
+    if powerline.args.git_simple:
+        for symbol in GIT_SYMBOL_PRIORITY:
+            if stats[symbol]:
+                return GIT_SYMBOLS[symbol]
+    return ''
+
+
 def add_git_segment(powerline):
     try:
         p = subprocess.Popen(['git', 'status', '--porcelain', '-b'],
@@ -101,17 +115,18 @@ def add_git_segment(powerline):
         bg = Color.REPO_DIRTY_BG
         fg = Color.REPO_DIRTY_FG
 
-    powerline.append(' %s %s ' % (GIT_SYMBOLS['branch'], branch), fg, bg)
+    powerline.append(' %s %s %s' % (GIT_SYMBOLS['branch'], branch, single_symbol(stats)), fg, bg)
 
     def _add(_dict, _key, fg, bg):
         if _dict[_key]:
             _str = u' {}{} '.format(_n_or_empty(_dict, _key), GIT_SYMBOLS[_key])
             powerline.append(_str, fg, bg)
 
-    if branch_info:
-        _add(branch_info, 'ahead', Color.GIT_AHEAD_FG, Color.GIT_AHEAD_BG)
-        _add(branch_info, 'behind', Color.GIT_BEHIND_FG, Color.GIT_BEHIND_BG)
-    _add(stats, 'staged', Color.GIT_STAGED_FG, Color.GIT_STAGED_BG)
-    _add(stats, 'notstaged', Color.GIT_NOTSTAGED_FG, Color.GIT_NOTSTAGED_BG)
-    _add(stats, 'untracked', Color.GIT_UNTRACKED_FG, Color.GIT_UNTRACKED_BG)
-    _add(stats, 'conflicted', Color.GIT_CONFLICTED_FG, Color.GIT_CONFLICTED_BG)
+    if not powerline.args.git_simple:
+        if branch_info:
+            _add(branch_info, 'ahead', Color.GIT_AHEAD_FG, Color.GIT_AHEAD_BG)
+            _add(branch_info, 'behind', Color.GIT_BEHIND_FG, Color.GIT_BEHIND_BG)
+        _add(stats, 'staged', Color.GIT_STAGED_FG, Color.GIT_STAGED_BG)
+        _add(stats, 'notstaged', Color.GIT_NOTSTAGED_FG, Color.GIT_NOTSTAGED_BG)
+        _add(stats, 'untracked', Color.GIT_UNTRACKED_FG, Color.GIT_UNTRACKED_BG)
+        _add(stats, 'conflicted', Color.GIT_CONFLICTED_FG, Color.GIT_CONFLICTED_BG)

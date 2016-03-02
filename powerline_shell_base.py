@@ -140,6 +140,8 @@ if __name__ == "__main__":
             help='Set this to your shell type', choices=['bash', 'zsh', 'bare'])
     arg_parser.add_argument('prev_error', nargs='?', type=int, default=0,
             help='Error code returned by the last command')
+    arg_parser.add_argument('--git-simple', action='store_true',
+            help='Simplify git status segment')
     args = arg_parser.parse_args()
 
     powerline = Powerline(args, get_valid_cwd())
