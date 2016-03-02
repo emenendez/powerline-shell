@@ -66,3 +66,6 @@ class Color(DefaultColor):
 
     SALTENV_FG = base03
     SALTENV_BG = orange
+
+    SSH_FG = base03
+    SSH_BG = cyan
