@@ -31,6 +31,9 @@ SEGMENTS = [
 # Show current salt environment
     'saltenv',
 
+# Show current kubernetes context
+    'k8scontext',
+
 # Show the current git branch and status
     'git',
 

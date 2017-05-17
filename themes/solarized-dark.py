@@ -67,5 +67,8 @@ class Color(DefaultColor):
     SALTENV_FG = base03
     SALTENV_BG = orange
 
+    K8SCONTEXT_FG = base03
+    K8SCONTEXT_BG = orange
+
     SSH_FG = base03
     SSH_BG = cyan
