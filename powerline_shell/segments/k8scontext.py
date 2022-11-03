@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 
 from ..utils import BasicSegment, warn
@@ -17,7 +18,21 @@ class Segment(BasicSegment):
                     if context['name'] == current_context:
                         namespace = context['context'].get('namespace', 'default')
                         break
-                self.powerline.append(' %s.%s ' % (current_context, namespace),
+
+                # Example long cluster name: gke_twttr-mlinfra-kf-cxp-prod_us-central1_mlinfra-kf-cxp-prod-cluster
+                if current_context.startswith('gke_'):
+                    self.powerline.append(' %s ' % self.powerline.lock,
+                                          self.powerline.theme.READONLY_FG,
+                                          self.powerline.theme.READONLY_BG)
+                    match = re.match(r'^gke_twttr-mlinfra-([^_]+)', current_context)
+                    current_context = f'gke_{match.group(1)}'
+
+                self.powerline.append(' %s ' % current_context,
+                                      self.powerline.theme.AWS_PROFILE_FG,
+                                      self.powerline.theme.AWS_PROFILE_BG,
+                                      self.powerline.separator_thin,
+                                      self.powerline.theme.AWS_PROFILE_FG)
+                self.powerline.append(' %s ' % namespace,
                                       self.powerline.theme.AWS_PROFILE_FG,
                                       self.powerline.theme.AWS_PROFILE_BG)
         except Exception:
