@@ -135,7 +135,7 @@ function install_powerline_precmd() {
   precmd_functions+=(powerline_precmd)
 }
 
-if [ "$TERM" != "linux" ]; then
+if [ "$TERM" != "linux" -a -x "$(command -v powerline-shell)" ]; then
     install_powerline_precmd
 fi
 ```
@@ -226,7 +226,7 @@ For example, your config could look like this:
     },
     {
       "type": "env",
-      "var": "DOCKER_MACHINE_NAME",
+      "var": "DOCKER_MACHINE_NAME"
     },
   ]
 }
