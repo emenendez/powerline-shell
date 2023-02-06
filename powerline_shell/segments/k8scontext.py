@@ -19,14 +19,30 @@ class Segment(BasicSegment):
                         namespace = context['context'].get('namespace', 'default')
                         break
 
-                # Example long cluster name: gke_twttr-mlinfra-kf-cxp-prod_us-central1_mlinfra-kf-cxp-prod-cluster
+                # Example long cluster name: gke_megaphone-prod_us-central1_megaphone-prod
                 if current_context.startswith('gke_'):
-                    self.powerline.append(' %s ' % self.powerline.lock,
-                                          self.powerline.theme.READONLY_FG,
-                                          self.powerline.theme.READONLY_BG)
-                    match = re.match(r'^gke_twttr-mlinfra-([^_]+)', current_context)
-                    current_context = f'gke_{match.group(1)}'
+                    # self.powerline.append(' %s ' % self.powerline.lock,
+                    #                       self.powerline.theme.READONLY_FG,
+                    #                       self.powerline.theme.READONLY_BG)
+                    match = re.match(r'^gke_([^_]+)_([^_]+)_([^_]+)', current_context)
+                    current_project = match.group(1)
+                    current_region = (
+                        match.group(2)
+                        .replace("us-central", "usc")
+                        .replace("us-east", "use")
+                    )
+                    current_context = match.group(3)
 
+                    self.powerline.append(' %s ' % current_project,
+                                            self.powerline.theme.AWS_PROFILE_FG,
+                                            self.powerline.theme.AWS_PROFILE_BG,
+                                            self.powerline.separator_thin,
+                                            self.powerline.theme.AWS_PROFILE_FG)
+                    self.powerline.append(' %s ' % current_region,
+                                            self.powerline.theme.AWS_PROFILE_FG,
+                                            self.powerline.theme.AWS_PROFILE_BG,
+                                            self.powerline.separator_thin,
+                                            self.powerline.theme.AWS_PROFILE_FG)
                 self.powerline.append(' %s ' % current_context,
                                       self.powerline.theme.AWS_PROFILE_FG,
                                       self.powerline.theme.AWS_PROFILE_BG,
