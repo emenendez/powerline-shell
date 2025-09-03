@@ -10,9 +10,11 @@ class Segment(BasicSegment):
         if os.getenv('VIRTUAL_ENV') \
             and os.path.basename(env) == '.venv':
             env = os.path.basename(os.path.dirname(env))
+        elif (prompt := os.getenv('VIRTUAL_ENV_PROMPT')):
+            env = prompt
         if not env:
             return
-        env_name = os.getenv('VIRTUAL_ENV_PROMPT') or os.path.basename(env)
+        env_name = os.path.basename(env)
         bg = self.powerline.theme.VIRTUAL_ENV_BG
         fg = self.powerline.theme.VIRTUAL_ENV_FG
         self.powerline.append(" " + env_name + " ", fg, bg)
