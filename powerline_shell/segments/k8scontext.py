@@ -20,6 +20,7 @@ class Segment(BasicSegment):
                         break
 
                 # Example long cluster name: gke_megaphone-prod_us-central1_megaphone-prod
+                is_xpn = False
                 if current_context.startswith('gke_'):
                     # self.powerline.append(' %s ' % self.powerline.lock,
                     #                       self.powerline.theme.READONLY_FG,
@@ -33,21 +34,26 @@ class Segment(BasicSegment):
                     )
                     current_context = match.group(3)
 
-                    self.powerline.append(' %s ' % current_project,
-                                            self.powerline.theme.AWS_PROFILE_FG,
-                                            self.powerline.theme.AWS_PROFILE_BG,
-                                            self.powerline.separator_thin,
-                                            self.powerline.theme.AWS_PROFILE_FG)
-                    self.powerline.append(' %s ' % current_region,
-                                            self.powerline.theme.AWS_PROFILE_FG,
-                                            self.powerline.theme.AWS_PROFILE_BG,
-                                            self.powerline.separator_thin,
-                                            self.powerline.theme.AWS_PROFILE_FG)
-                self.powerline.append(' %s ' % current_context,
-                                      self.powerline.theme.AWS_PROFILE_FG,
-                                      self.powerline.theme.AWS_PROFILE_BG,
-                                      self.powerline.separator_thin,
-                                      self.powerline.theme.AWS_PROFILE_FG)
+                    is_xpn = current_project == 'gke-xpn-1'
+
+                    if not is_xpn:
+                        self.powerline.append(' %s ' % current_project,
+                                                self.powerline.theme.AWS_PROFILE_FG,
+                                                self.powerline.theme.AWS_PROFILE_BG,
+                                                self.powerline.separator_thin,
+                                                self.powerline.theme.AWS_PROFILE_FG)
+                    else:
+                        self.powerline.append(' %s ' % current_region,
+                                                self.powerline.theme.AWS_PROFILE_FG,
+                                                self.powerline.theme.AWS_PROFILE_BG,
+                                                self.powerline.separator_thin,
+                                                self.powerline.theme.AWS_PROFILE_FG)
+                if not is_xpn:
+                    self.powerline.append(' %s ' % current_context,
+                                          self.powerline.theme.AWS_PROFILE_FG,
+                                          self.powerline.theme.AWS_PROFILE_BG,
+                                          self.powerline.separator_thin,
+                                          self.powerline.theme.AWS_PROFILE_FG)
                 self.powerline.append(' %s ' % namespace,
                                       self.powerline.theme.AWS_PROFILE_FG,
                                       self.powerline.theme.AWS_PROFILE_BG)
